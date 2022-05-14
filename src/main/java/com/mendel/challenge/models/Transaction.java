@@ -14,7 +14,7 @@ public class Transaction {
     private Long amount;
     private static Long finalAmount =0L;
     private String transactionType;
-    private static Integer parentId=null;
+    private Integer parentId= 0;
 
     public Transaction(TransactionRequest transactionRequest) {
         this.id+=1;

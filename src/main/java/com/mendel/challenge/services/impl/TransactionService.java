@@ -8,7 +8,6 @@ import com.mendel.challenge.services.ITransactionService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,19 +24,18 @@ public class TransactionService implements ITransactionService {
     @Override
     public TransactionResponse getTransactionsByType(String transactionType) {
         List<Transaction> transactions = transactionRepository.getTransctions();
-        return new TransactionResponse(transactions.stream().filter(transaction ->  transaction.getTransactionType().equalsIgnoreCase(transactionType)));
-
+        return null;
     }
 
     @Override
-    public List<TransactionResponse> createTransaction(TransactionRequest transactionRequest) {
+    public TransactionResponse createTransaction(TransactionRequest transactionRequest) {
         List<Transaction> transactionList = transactionRepository.createTransaction(transactionRequest);
-        return transactionList.stream().map(this::convertToTransactionResponse).collect(Collectors.toUnmodifiableList());
+        return new TransactionResponse(transactionList.stream().map(this::convertToTransactionResponse).collect(Collectors.toUnmodifiableList()), transactionList.stream().mapToLong(t -> t.getAmount()).sum());
     }
 
-    private TransactionResponse convertToTransactionResponse(Transaction transaction){
+    private TransactionResponse.Tx convertToTransactionResponse(Transaction transaction){
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-        TransactionResponse transactionResponse = modelMapper.map(transaction, TransactionResponse.class);
+        TransactionResponse.Tx transactionResponse = modelMapper.map(transaction, TransactionResponse.Tx.class);
         return transactionResponse;
     }
 }

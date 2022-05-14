@@ -1,24 +1,34 @@
 package com.mendel.challenge.responses;
 
-import com.mendel.challenge.models.Transaction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Accessors(chain = true)
 public class TransactionResponse {
 
+    private List<Tx> transactions;
     private Long totalAmount;
 
-    public TransactionResponse(Stream<Transaction> transactionStream) {
-        this.totalAmount = transactionStream.mapToLong(t -> t.getAmount()).sum();
+    public TransactionResponse(List<Tx> transactions, Long totalAmount) {
+        this.transactions = transactions;
+        this.totalAmount = totalAmount;
     }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Tx {
+        private Long amount;
+        private String transactionType;
+    }
+
 }

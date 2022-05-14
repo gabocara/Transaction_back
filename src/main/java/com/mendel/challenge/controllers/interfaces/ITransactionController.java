@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @RequestMapping("/v1/transactions")
 public interface ITransactionController {
@@ -18,5 +17,5 @@ public interface ITransactionController {
 
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    ResponseEntity<List<TransactionResponse>> createTransaction(@RequestBody @Valid TransactionRequest transactionRequest);
+    ResponseEntity<TransactionResponse> createTransaction(@RequestBody @Valid TransactionRequest transactionRequest);
 }

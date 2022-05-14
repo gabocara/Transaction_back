@@ -7,6 +7,8 @@ import com.mendel.challenge.services.ITransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class TransactionService implements ITransactionService {
@@ -19,7 +21,7 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public TransactionResponse createTransaction(TransactionRequest transactionRequest) {
+    public List<TransactionResponse> createTransaction(TransactionRequest transactionRequest) {
          return transactionRepository.createTransaction(transactionRequest);
     }
 }

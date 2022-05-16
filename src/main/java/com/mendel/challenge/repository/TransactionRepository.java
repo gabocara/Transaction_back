@@ -23,12 +23,19 @@ public class TransactionRepository {
     }
 
     private Long getParentId(List<Transaction> transactionList, String transactionType){
-        Optional<Transaction> transactionOptional = transactionList.stream().filter(t -> t.getTransactionType().equalsIgnoreCase(transactionType)).findFirst();
+        Optional<Transaction> transactionOptional = transactionList.stream()
+                .filter(t -> t.getTransactionType().equalsIgnoreCase(transactionType))
+                .findFirst();
         Long transactionMax = 0L;
         if(transactionList.size() != 0) {
-            transactionMax = transactionList.stream().max(Comparator.comparing(Transaction::getParentId)).orElseThrow(NoSuchElementException::new).getParentId();
+            transactionMax = transactionList.stream()
+                    .max(Comparator.comparing(Transaction::getParentId))
+                    .orElseThrow(NoSuchElementException::new)
+                    .getParentId();
         }
-        Long parentId = transactionList == null ? 0L : transactionOptional.isPresent() && transactionList != null ? transactionOptional.get().getParentId() : transactionMax +1;
+        Long parentId = transactionList == null ? 0L :
+                transactionOptional.isPresent() && transactionList != null ? transactionOptional.get().getParentId() :
+                        transactionMax +1;
         return parentId;
     }
 }

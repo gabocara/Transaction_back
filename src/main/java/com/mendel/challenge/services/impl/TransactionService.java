@@ -30,6 +30,10 @@ public class TransactionService implements ITransactionService {
     @Override
     public TransactionResponse createTransaction(TransactionRequest transactionRequest) {
         List<Transaction> transactionList = transactionRepository.createTransaction(transactionRequest);
+        if(transactionRequest.getParentId() != null){
+            List<Transaction> linkedTransaction = linkTransaction(transactionList, transactionRequest);
+            return new TransactionResponse(linkedTransaction.stream().map(this::convertToTransactionResponse).collect(Collectors.toList()), linkedTransaction.stream().mapToLong(t -> t.getAmount()).sum());
+        }
         return new TransactionResponse(transactionList.stream().map(this::convertToTransactionResponse).filter(tx -> tx.getTransactionType().equalsIgnoreCase(transactionRequest.getTransactionType())).collect(Collectors.toUnmodifiableList()), transactionList.stream().filter(tx -> tx.getTransactionType().equalsIgnoreCase(transactionRequest.getTransactionType())).mapToLong(t -> t.getAmount()).sum());
     }
 
@@ -39,8 +43,8 @@ public class TransactionService implements ITransactionService {
         return transactionResponse;
     }
 
-    private TransactionResponse.Tx linkTransaction(List<Integer> ids){
-    return null;
+    private List<Transaction> linkTransaction( List<Transaction> transactionList, TransactionRequest transactionRequest){
+        return transactionList.stream().filter(tx -> tx.getTransactionType().equalsIgnoreCase(transactionRequest.getTransactionType()) || tx.getParentId().longValue()==transactionRequest.getParentId()).collect(Collectors.toUnmodifiableList());;
     }
 
 }

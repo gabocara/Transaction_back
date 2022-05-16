@@ -15,5 +15,6 @@ public class TransactionRequest {
 
     @NotNull private String transactionType;
     @NotNull private Long amount;
+             private Long parentId;
 
 }

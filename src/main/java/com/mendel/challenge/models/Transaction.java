@@ -14,13 +14,14 @@ public class Transaction {
     private Long amount;
     private static Long finalAmount =0L;
     private String transactionType;
-    private Integer parentId= 0;
+    private Long parentId;
 
-    public Transaction(TransactionRequest transactionRequest) {
+
+    public Transaction(TransactionRequest transactionRequest, Long parentId) {
         this.id+=1;
         this.amount=transactionRequest.getAmount();
         this.finalAmount=this.amount;
         this.transactionType=transactionRequest.getTransactionType();
-        this.parentId=transactionRequest.getParentId();
+        this.parentId = parentId;
     }
 }

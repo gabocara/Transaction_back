@@ -24,13 +24,13 @@ public class TransactionService implements ITransactionService {
     @Override
     public TransactionResponse getTransactionsByType(String transactionType) {
         List<Transaction> transactions = transactionRepository.getTransctions();
-        return null;
+        return new TransactionResponse(transactions.stream().map(this::convertToTransactionResponse).collect(Collectors.toUnmodifiableList()));
     }
 
     @Override
     public TransactionResponse createTransaction(TransactionRequest transactionRequest) {
         List<Transaction> transactionList = transactionRepository.createTransaction(transactionRequest);
-        return new TransactionResponse(transactionList.stream().map(this::convertToTransactionResponse).collect(Collectors.toUnmodifiableList()), transactionList.stream().mapToLong(t -> t.getAmount()).sum());
+        return new TransactionResponse(transactionList.stream().map(this::convertToTransactionResponse).filter(tx -> tx.getTransactionType().equalsIgnoreCase(transactionRequest.getTransactionType())).collect(Collectors.toUnmodifiableList()), transactionList.stream().filter(tx -> tx.getTransactionType().equalsIgnoreCase(transactionRequest.getTransactionType())).mapToLong(t -> t.getAmount()).sum());
     }
 
     private TransactionResponse.Tx convertToTransactionResponse(Transaction transaction){
@@ -38,4 +38,9 @@ public class TransactionService implements ITransactionService {
         TransactionResponse.Tx transactionResponse = modelMapper.map(transaction, TransactionResponse.Tx.class);
         return transactionResponse;
     }
+
+    private TransactionResponse.Tx linkTransaction(List<Integer> ids){
+    return null;
+    }
+
 }

@@ -22,6 +22,10 @@ public class TransactionResponse {
         this.totalAmount = totalAmount;
     }
 
+    public TransactionResponse(List<Tx> transactions) {
+        this.transactions = transactions;
+    }
+
     @Data
     @Builder
     @NoArgsConstructor
@@ -29,6 +33,7 @@ public class TransactionResponse {
     public static class Tx {
         private Long amount;
         private String transactionType;
+        private Long parentId;
     }
 
 }

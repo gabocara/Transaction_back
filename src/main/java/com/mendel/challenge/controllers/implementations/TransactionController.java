@@ -5,6 +5,7 @@ import com.mendel.challenge.requests.TransactionRequest;
 import com.mendel.challenge.responses.TransactionResponse;
 import com.mendel.challenge.services.ITransactionService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,6 @@ public class TransactionController implements ITransactionController {
 
     @Override
     public ResponseEntity<TransactionResponse> createTransaction(TransactionRequest transactionRequest) {
-       return ResponseEntity.ok(transactionService.createTransaction(transactionRequest));
+       return new ResponseEntity<>(transactionService.createTransaction(transactionRequest), HttpStatus.CREATED);
     }
 }

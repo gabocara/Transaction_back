@@ -44,7 +44,7 @@ public class TransactionService implements ITransactionService {
     }
 
     private List<Transaction> linkTransaction( List<Transaction> transactionList, TransactionRequest transactionRequest){
-        return transactionList.stream().filter(tx -> tx.getTransactionType().equalsIgnoreCase(transactionRequest.getTransactionType()) || tx.getParentId().longValue()==transactionRequest.getParentId()).collect(Collectors.toUnmodifiableList());;
+        return transactionList.stream().filter(tx -> tx.getTransactionType().equalsIgnoreCase(transactionRequest.getTransactionType()) || tx.getParentId().longValue()==transactionRequest.getParentId()).collect(Collectors.toUnmodifiableList());
     }
 
 }

@@ -62,7 +62,7 @@ public class TransactionControllerIT
 
 
     @Test
-    public void testGetAll() throws Exception {
+    public void createTransactionITest() throws Exception {
 
         TransactionRequest transactionRequestMock = new TransactionRequest("buy", 1L, 1L);
         TransactionResponse.Tx tx = new TransactionResponse.Tx(1L, "buy", 1L);
